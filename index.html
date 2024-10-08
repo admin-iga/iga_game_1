@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠ Система заражена!</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ff1a1a;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            font-size: 36px;
+            color: #ff4d4d;
+            text-shadow: 2px 2px 5px #ff0000;
+        }
+        #progress-bar {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #1a1a1a;
+            border: 2px solid #ff4d4d;
+            box-shadow: 0 0 10px 2px red;
+        }
+        #progress-bar div {
+            width: 0;
+            height: 30px;
+            background-color: #ff3333;
+            box-shadow: 0 0 10px 2px red;
+        }
+        #message {
+            font-size: 20px;
+            margin-top: 20px;
+            color: #ff6666;
+            text-shadow: 1px 1px 3px #ff0000;
+        }
+        .warning {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #ff1a1a;
+            text-shadow: 2px 2px 5px red;
+        }
+
+        /* Синий экран смерти */
+        #bsod {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #001f3f;
+            color: white;
+            font-family: 'Consolas', monospace;
+            font-size: 24px;
+            text-align: left;
+            padding: 50px;
+        }
+        #bsod h1 {
+            font-size: 36px;
+        }
+    </style>
+</head>
+<body>
+    <h1>⚠ Система заражена! ⚠</h1>
+    <p id="message">Идёт уничтожение данных...</p>
+    <div id="progress-bar"><div></div></div>
+
+    <p class="warning">Ваш антивирус был отключен.</p>
+    <p class="warning">Доступ к интернету заблокирован.</p>
+    <p class="warning">Восстановление системы невозможно.</p>
+
+    <div id="bsod">
+        <h1>:(</h1>
+        <p>Ваш компьютер столкнулся с проблемой и должен быть перезагружен.</p>
+        <p>Мы собираем информацию об ошибке и затем перезагрузим его автоматически.</p>
+        <p>Код ошибки: CRITICAL_PROCESS_DIED</p>
+        <p style="margin-top: 50px;">Для получения дополнительной информации об этой проблеме и возможных исправлениях вы можете выполнить поиск в Интернете по этому коду ошибки: CRITICAL_PROCESS_DIED</p>
+    </div>
+
+    <script>
+        let progress = 0;
+        const progressBar = document.querySelector('#progress-bar div');
+        const messages = [
+            '⚠ Подключение к удаленному серверу...',
+            '⚠ Уничтожение системных файлов...',
+            '⚠ Доступ к личным данным получен...',
+            '⚠ Загружаются вирусы...',
+            '⚠ Ожидайте полной блокировки системы...',
+        ];
+        let messageIndex = 0;
+
+        const interval = setInterval(() => {
+            if (progress < 100) {
+                progress += 2;
+                progressBar.style.width = progress + '%';
+                if (progress % 20 === 0 && messageIndex < messages.length) {
+                    document.getElementById('message').innerText = messages[messageIndex];
+                    messageIndex++;
+                }
+            } else {
+                clearInterval(interval);
+                document.getElementById('message').innerText = 'Все ваши данные были успешно уничтожены! (шутка 😉)';
+                triggerBSOD(); // Вызов синего экрана
+            }
+        }, 300);
+
+        // Полный экран и BSOD
+        function triggerBSOD() {
+            let elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { // Firefox
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { // IE/Edge
+                elem.msRequestFullscreen();
+            }
+
+            setTimeout(() => {
+                document.getElementById('bsod').style.display = 'block';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
